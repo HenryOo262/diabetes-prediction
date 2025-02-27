@@ -1,0 +1,25 @@
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+    scrollbar-color: #00bfff #000000;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #000000;
+} 
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a:hover {
+    color: #00bfff;
+}

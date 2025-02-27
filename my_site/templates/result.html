@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{url_for('static', filename='css/main.css')}}" rel='stylesheet' type='text/css' />
+        <link href="{{url_for('static', filename='css/home.css')}}" rel='stylesheet' type='text/css' />
+        <title> Result </title>
+    </head>
+    <body> 
+        <!-- First -->
+        <div class="vh-100" style="background-color: #ffffff;">
+            <div class=" pos-center">
+                {% for key,value in result.items() %}
+                    <p> {{key}}: {{value}} </p>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>

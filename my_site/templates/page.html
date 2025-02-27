@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{url_for('static', filename='css/main.css')}}" rel='stylesheet' type='text/css' />
+        <link href="{{url_for('static', filename='css/home.css')}}" rel='stylesheet' type='text/css' />
+        <title> Home </title>
+    </head>
+    <body> 
+        <!-- First -->
+        <div class="vh-100" style="color: #ffffff">
+            <h1 id="heading" class="text-center margin-center p-25"> Diabetes Prediction Model </h1>
+            <p id="quote" class="text-center margin-center">
+                The number of people with diabetes is rising, and is projected to increase to 783 million by 2045 !!!
+            </p>
+            <div class="margin-center flex-row-center p-25">
+                <img style="width: 200px; height: auto; border-radius: 100%; margin:20px;" 
+                    src="{{url_for('static', filename='img/eepy_car.jpg')}}" alt="eepy car">
+            </div>
+            <nav id="navigation" class="margin-center flex-row-center">
+                <div class="flex-col-center">
+                    <a href="#test-model" class="margin-b-20" style="display: block; font-size: 24px;"> Predict Diabetes ! </a>
+                    <a href="#train-model" style="display: block; font-size: 24px;"> Train your own model ! </a> <br>
+                </div>
+            </nav>
+            <div class="flex-row-center p-25 margin-t-10">
+                <div class="flex-col-center p-5"> 
+                    <p class="margin-b-20"> Models: <a href="#details-model"> Gaussian Naive Bayes and Logistic Regression </a> </p>
+                    <p> Dataset: <a href="https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database"> Pima Indians Diabetes dataset </a> </p>
+                </div>
+            </div>
+        </div>
+        <!-- Second -->
+        <div id="test-model" class="vh-100 pos-relative" style="color: #000000; font-size: 18px; background-color: #f5f5f5;">
+            <form method="POST" action="{{ url_for('pageViews.diabetes_predict') }}" class="flex-col-start pos-center p-25" style="background-color: #ffffff;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <!-- Pregnant -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="pregnancy"> Number of times pregnant </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="pregnancy" name="pregnancy" min="0" max="17" value="0" oninput="pregnancyoutput.value = this.value" required>
+                        <output class="margin-l-10" for="pregnancy" id="pregnancyoutput" style="color: #000000">0</output>
+                    </div>
+                </div>
+                <!-- Glucose -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="glucose"> Common Glucose Ranges for OGTT (2-Hour Test) </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="glucose" name="glucose" min="0" max="199" value="0" step="1" oninput="glucoseoutput.value = this.value" required>
+                        <output class="margin-l-10" for="glucose" id="glucoseoutput" style="color: #000000">0</output>
+                    </div>
+                </div>
+                <!-- BP -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="bp"> Diastolic blood pressure (mm Hg) </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="bp" name="bp" min="0" max="122" value="0" step="1" oninput="bpoutput.value = this.value" required>
+                        <output class="margin-l-10" for="bp" id="bpoutput" style="color: #000000">0</output>
+                    </div>
+                </div>
+                <!-- SkinThickness -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="skinthickness"> Triceps skin fold thickness (mm) </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="skinthickness" name="skinthickness" min="0" max="99" value="0" oninput="skinthicknessoutput.value = this.value" required>
+                        <output class="margin-l-10" for="skinthickness" id="skinthicknessoutput" style="color: #000000">0</output>
+                    </div>
+                </div>
+                <!-- Insulin -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="insulin"> 2-Hour serum insulin (mu U/ml) </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="insulin" name="insulin" min="0" max="846" value="0" oninput="insulinoutput.value = this.value" required>
+                        <output class="margin-l-10" for="insulin" id="insulinoutput" style="color: #000000">0</output>
+                    </div>
+                </div>
+                <!-- BMI -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="bmi"> Body mass index (weight in kg/(height in m)^2) </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="bmi" name="bmi" min="0" max="67" value="0" step=".1" oninput="bmioutput.value = this.value" required>
+                        <output class="margin-l-10" for="bmi" id="bmioutput" style="color: #000000">0</output>
+                    </div>
+                </div>
+                <!-- Diabetes Pedigree -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="pedigree"> Diabetes pedigree function </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="pedigree" name="pedigree" min="0" max="2.42" value="0" step=".1" oninput="pedigreeoutput.value = this.value" required>
+                        <output class="margin-l-10" for="pedigree" id="pedigreeoutput" style="color: #000000">0</output>
+                    </div>
+                </div>
+                <!-- Age -->
+                <div class="flex-col-start w-100 margin-b-10">
+                    <label for="age"> Age (years) </label>
+                    <div class="flex-row-start">
+                        <input type="range" id="age" name="age" min="21" max="81" value="21" oninput="ageoutput.value = this.value" required>
+                        <output class="margin-l-10" for="age" id="ageoutput" style="color: #000000">21</output>
+                    </div>
+                </div>
+                <div class="flex-row-center"> 
+                    <input type="radio" id="original" name="model" value="original">
+                    <label class="margin-l-5" for="original">Original Models</label>
+                    <input class="margin-l-10" type="radio" id="new" name="model" value="new">
+                    <label class="margin-l-5" for="new">Your Models</label>
+                </div>
+                <!-- Button -->
+                <button type="submit" class="predict-button border-w">
+                    Predict
+                </button>
+            </form>
+        </div>
+        <!-- Third -->
+        <div class="vh-100 pos-relative" style="color: #ffffff" id="train-model">
+            <form method="POST" action="{{ url_for('pageViews.train') }}" enctype="multipart/form-data" class="pos-center p-25">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <h3> Upload dataset to train your own models (csv file only) </h3> <br>
+                <h4> * Feature names and datatypes must be - <br> [ Pregnancies int64 | Glucose int64 | BloodPressure int64 | SkinThickness int64 | Insulin int64 | BMI float64 | DiabetesPedigreeFunction float64 | Age int64 | Outcome int64 ] </h4>
+                <br>
+                <table>
+                    <tr>
+                        <th> Pregnancies </th>
+                        <th> Glucose </th>
+                        <th> BloodPressure </th>
+                        <th> SkinThickness </th>
+                        <th> Insulin </th>
+                        <th> BMI </th>
+                        <th> DiabetesPedigreeFunction </th>
+                        <th> Age </th>
+                        <th> Outcome </th>
+                    </tr>
+                    <tr> 
+                        <td> 2 </td>
+                        <td> 140 </td>
+                        <td> 66 </td>
+                        <td> 29 </td>
+                        <td> 88 </td>
+                        <td> 23.3 </td>
+                        <td> 0.11 </td>
+                        <td> 25 </td>
+                        <td> 0 </td>
+                    </tr>
+                </table>
+                <br>
+                <p> * Everytime you train, your previous models will be deleted. </p>
+                <br>
+                <input type="file" id="dataset" name="dataset" accept=".csv" required>
+                <br><br>
+                <button class="upload-button" type="submit">Upload</button>
+            </form>
+        </div>
+        <!-- Fourth -->
+        <div id="details-model" class="vh-100 pos-relative" style="color: #000000; font-size: 18px; background-color: #f5f5f5;">
+            <div class="pos-center info">
+                <h3 style="text-align: center;"> Models Details </h3> <br>
+                <table>
+                    <tr>
+                        <th>
+                            Gaussian Naive Bayes
+                        </th>
+                        <th>
+                            Logistic Regression
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            Accuracy: 0.8051948051948052 <br>
+                            Precision: 0.6363636363636364 <br>
+                            Recall: 0.7777777777777778 <br>
+                            Confusion Matrix: <br> [[89, 20], <br>
+                            [10, 35]] <br>
+                        </td>
+                        <td style="text-align: center;">
+                            Accuracy: 0.8051948051948052 <br>
+                            Precision: 0.5272727272727272 <br>
+                            Recall: 0.8787878787878788 <br>
+                            Confusion Matrix: <br> [[95, 26], <br>
+                            [ 4, 29]] <br>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <p style="text-align: center;"> Confusion Matrix Labels: ['No Diabetes', 'Diabetes'] </p>
+            </div>
+        </div>
+    </body>
+</html>
