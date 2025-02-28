@@ -1,5 +1,4 @@
 from flask import Blueprint, session, request, flash, redirect, render_template, url_for
-from flask_mysqldb import MySQL
 from pprint import pp as p
 from functools import wraps
 
