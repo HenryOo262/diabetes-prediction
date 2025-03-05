@@ -5,11 +5,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{{url_for('static', filename='css/main.css')}}" rel='stylesheet' type='text/css' />
         <link href="{{url_for('static', filename='css/home.css')}}" rel='stylesheet' type='text/css' />
+        <script src="{{url_for('static', filename='javascript/page.js')}}" async> </script>
         <title> Home </title>
     </head>
-    <body> 
-        <!-- First -->
-        <div class="vh-100" style="color: #ffffff">
+    <body class="pos-relative"> 
+        <div class="sidebar" style="z-index: 5;">
+            <a href="#">
+                Home
+            </a>
+            <a href="#test-model">
+                Predict
+            </a>
+            <a href="#upload-model">
+                Upload
+            </a>
+            <a href="#train-model">
+                Train
+            </a>
+            <a href="#details-model">
+                Details
+            </a>
+        </div>
+        <!-- Home -->
+        <div class="vh-100 bg-b" style="color: #f5f5f5">
             <h1 id="heading" class="text-center margin-center p-25"> Diabetes Prediction Model </h1>
             <p id="quote" class="text-center margin-center">
                 The number of people with diabetes is rising, and is projected to increase to 783 million by 2045 !!!
@@ -20,8 +38,8 @@
             </div>
             <nav id="navigation" class="margin-center flex-row-center">
                 <div class="flex-col-center">
-                    <a href="#test-model" class="margin-b-20" style="display: block; font-size: 24px;"> Predict Diabetes ! </a>
-                    <a href="#train-model" style="display: block; font-size: 24px;"> Train your own model ! </a> <br>
+                    <a href="#test-model" class="margin-b-20 display-block" style="display: block; font-size: 24px;"> Predict Diabetes ! </a>
+                    <a href="#train-model" class="display-block" style="font-size: 24px;"> Train your own model ! </a> <br>
                 </div>
             </nav>
             <div class="flex-row-center p-25 margin-t-10">
@@ -31,72 +49,72 @@
                 </div>
             </div>
         </div>
-        <!-- Second -->
-        <div id="test-model" class="vh-100 pos-relative" style="color: #000000; font-size: 18px; background-color: #f5f5f5;">
+        <!-- Predict -->
+        <div id="test-model" class="vh-100 pos-relative bg-wsmoke" style="color: #000000; font-size: 18px;">
             <form method="POST" action="{{ url_for('pageViews.diabetes_predict') }}" class="flex-col-start pos-center p-25" style="background-color: #ffffff;">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <!-- Pregnant -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="pregnancy"> Number of times pregnant </label>
+                    <label for="pregnancy"> Number of times pregnant <span title="The number of times the patient has been pregnant." class="info"> ? </span> </label> 
                     <div class="flex-row-start">
-                        <input type="range" id="pregnancy" name="pregnancy" min="0" max="17" value="0" oninput="pregnancyoutput.value = this.value" required>
+                        <input type="range" id="pregnancy" name="pregnancy" min="0" max="20" value="0" oninput="pregnancyoutput.value = this.value" required>
                         <output class="margin-l-10" for="pregnancy" id="pregnancyoutput" style="color: #000000">0</output>
                     </div>
                 </div>
                 <!-- Glucose -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="glucose"> Common Glucose Ranges for OGTT (2-Hour Test) </label>
+                    <label for="glucose"> Common Glucose Ranges for OGTT (2-Hour Test) <span title="Plasma glucose concentration (mg/dL) after a 2-hour oral glucose tolerance test." class="info"> ? </span> </label>
                     <div class="flex-row-start">
-                        <input type="range" id="glucose" name="glucose" min="0" max="199" value="0" step="1" oninput="glucoseoutput.value = this.value" required>
-                        <output class="margin-l-10" for="glucose" id="glucoseoutput" style="color: #000000">0</output>
+                        <input type="range" id="glucose" name="glucose" min="50" max="250" value="50" step="1" oninput="glucoseoutput.value = this.value" required>
+                        <output class="margin-l-10" for="glucose" id="glucoseoutput" style="color: #000000">50</output>
                     </div>
                 </div>
                 <!-- BP -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="bp"> Diastolic blood pressure (mm Hg) </label>
+                    <label for="bp"> Diastolic blood pressure (mm Hg) <span title="Diastolic blood pressure (mm Hg)." class="info"> ? </span> </label>
                     <div class="flex-row-start">
-                        <input type="range" id="bp" name="bp" min="0" max="122" value="0" step="1" oninput="bpoutput.value = this.value" required>
-                        <output class="margin-l-10" for="bp" id="bpoutput" style="color: #000000">0</output>
+                        <input type="range" id="bp" name="bp" min="40" max="200" value="40" step="1" oninput="bpoutput.value = this.value" required>
+                        <output class="margin-l-10" for="bp" id="bpoutput" style="color: #000000">40</output>
                     </div>
                 </div>
                 <!-- SkinThickness -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="skinthickness"> Triceps skin fold thickness (mm) </label>
+                    <label for="skinthickness"> Triceps skin fold thickness (mm) <span title="Triceps skin fold thickness (mm) used to estimate body fat." class="info"> ? </span> </label>
                     <div class="flex-row-start">
-                        <input type="range" id="skinthickness" name="skinthickness" min="0" max="99" value="0" oninput="skinthicknessoutput.value = this.value" required>
+                        <input type="range" id="skinthickness" name="skinthickness" min="0" max="80" value="0" oninput="skinthicknessoutput.value = this.value" required>
                         <output class="margin-l-10" for="skinthickness" id="skinthicknessoutput" style="color: #000000">0</output>
                     </div>
                 </div>
                 <!-- Insulin -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="insulin"> 2-Hour serum insulin (mu U/ml) </label>
+                    <label for="insulin"> 2-Hour serum insulin (mu U/ml) <span title="2-hour serum insulin (mu U/mL)." class="info"> ? </span> </label>
                     <div class="flex-row-start">
-                        <input type="range" id="insulin" name="insulin" min="0" max="846" value="0" oninput="insulinoutput.value = this.value" required>
+                        <input type="range" id="insulin" name="insulin" min="0" max="1000" value="0" oninput="insulinoutput.value = this.value" required>
                         <output class="margin-l-10" for="insulin" id="insulinoutput" style="color: #000000">0</output>
                     </div>
                 </div>
                 <!-- BMI -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="bmi"> Body mass index (weight in kg/(height in m)^2) </label>
+                    <label for="bmi"> Body mass index (weight in kg/(height in m²)) <span title="Body Mass Index (weight in kg / height in m²)." class="info"> ? </span> </label>
                     <div class="flex-row-start">
-                        <input type="range" id="bmi" name="bmi" min="0" max="67" value="0" step=".1" oninput="bmioutput.value = this.value" required>
-                        <output class="margin-l-10" for="bmi" id="bmioutput" style="color: #000000">0</output>
+                        <input type="range" id="bmi" name="bmi" min="10" max="70" value="10" step=".1" oninput="bmioutput.value = this.value" required>
+                        <output class="margin-l-10" for="bmi" id="bmioutput" style="color: #000000">10</output>
                     </div>
                 </div>
                 <!-- Diabetes Pedigree -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="pedigree"> Diabetes pedigree function </label>
+                    <label for="pedigree"> Diabetes pedigree function <span title="A function that represents the likelihood of diabetes based on family history (a higher value indicates a stronger family history of diabetes). If you don't know your DPF value, you can choose 0 if you don't have family member (parent or sibling) with diabetes, otherwise choose between 0.5 to 2.5 accordingly.  " class="info"> ? </span> </label>
                     <div class="flex-row-start">
-                        <input type="range" id="pedigree" name="pedigree" min="0" max="2.42" value="0" step=".1" oninput="pedigreeoutput.value = this.value" required>
+                        <input type="range" id="pedigree" name="pedigree" min="0" max="2.5" value="0" step=".1" oninput="pedigreeoutput.value = this.value" required>
                         <output class="margin-l-10" for="pedigree" id="pedigreeoutput" style="color: #000000">0</output>
                     </div>
                 </div>
                 <!-- Age -->
                 <div class="flex-col-start w-100 margin-b-10">
-                    <label for="age"> Age (years) </label>
+                    <label for="age"> Age (years) <span title="Age of the patient." class="info"> ? </span> </label>
                     <div class="flex-row-start">
-                        <input type="range" id="age" name="age" min="21" max="81" value="21" oninput="ageoutput.value = this.value" required>
-                        <output class="margin-l-10" for="age" id="ageoutput" style="color: #000000">21</output>
+                        <input type="range" id="age" name="age" min="18" max="100" value="18" oninput="ageoutput.value = this.value" required>
+                        <output class="margin-l-10" for="age" id="ageoutput" style="color: #000000">18</output>
                     </div>
                 </div>
                 <div class="flex-row-center"> 
@@ -111,9 +129,9 @@
                 </button>
             </form>
         </div>
-        <!-- Third -->
-        <div class="vh-100 pos-relative" style="color: #ffffff" id="train-model">
-            <form method="POST" action="{{ url_for('pageViews.train') }}" enctype="multipart/form-data" class="pos-center p-25">
+        <!-- Upload -->
+        <div class="vh-100 pos-relative bg-b" style="color: #f5f5f5" id="upload-model">
+            <form method="POST" action="{{ url_for('pageViews.upload') }}" enctype="multipart/form-data" class="pos-center p-25" id="upload-form">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <h3> Upload dataset to train your own models (csv file only) </h3> <br>
                 <h4> * Feature names and datatypes must be - <br> [ Pregnancies int64 | Glucose int64 | BloodPressure int64 | SkinThickness int64 | Insulin int64 | BMI float64 | DiabetesPedigreeFunction float64 | Age int64 | Outcome int64 ] </h4>
@@ -147,15 +165,100 @@
                 <br>
                 <input type="file" id="dataset" name="dataset" accept=".csv" required>
                 <br><br>
-                <button class="upload-button" type="submit">Upload</button>
+                <button class="upload-button" id="upload-button"> Upload </button>
             </form>
+            <br>
         </div>
-        <!-- Fourth -->
-        <div id="details-model" class="vh-100 pos-relative" style="color: #000000; font-size: 18px; background-color: #f5f5f5;">
-            <div class="pos-center info">
+        {#
+        <!-- After Upload -->
+        <div id="uploaded-dataset-div" class="flex-col-center bg-w p-25 vh-100">
+            <h3> Uploaded Dataset: </h3>
+            <div class="flex-row-center margin-t-10">
+                <p> Would you like to train models with dataset ? </p> 
+                <button class="btn-turquoise margin-l-10" id="train-btn"> Train </button>
+                <button class="btn-turquoise margin-l-10" id="remove-btn"> Remove </button>
+            </div>
+            <form id="backup-form">
+                <input type="file" id="backup-dataset" name="backup-dataset" accept=".csv" required hidden>
+            </form>
+            <iframe id="iframe" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
+        </div>
+        #}
+        <!-- After Upload Train -->
+        <div id="train-model" class="flex-col-center bg-wsmoke p-25 vh-200">
+            {# <h3> Uploaded Dataset: </h3> #}
+            <div class="flex-row-center">
+                <h3 style="font-weight: bold;"> What would you like to do with this dataset ? </h3> 
+                <a style="background-color:#00bfff; color:#000000; padding:5px;" class="margin-l-10" href="{{ url_for('pageViews.traintestsplit') }}" id="split-btn"> Train Test Split </a>
+                <a style="background-color:#00bfff; color:#000000; padding:5px;" class="margin-l-10" href="{{ url_for('pageViews.preprocess', type='minmaxscaler') }}" id="preprocess-btn"> Normalize </a>
+                <a style="background-color:#00bfff; color:#000000; padding:5px;" class="margin-l-10" href="{{ url_for('pageViews.train') }}" id="train-btn"> Train </a>
+            </div>
+            <form id="backup-form">
+                <input type="file" id="backup-dataset" name="backup-dataset" accept=".csv" required hidden>
+            </form>
+            <p class="vw-50 margin-t-10" style="text-align: left;"> Uploaded dataset: </p>
+            <iframe id="iframe" src="{{ url_for('pageViews.uploaded_dataset') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
+            <p class="vw-50 margin-t-10" style="text-align: left;"> Train set: </p>
+            <iframe id="iframe" src="{{ url_for('pageViews.trainset') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
+            <p class="vw-50 margin-t-10" style="text-align: left;"> Train set describe: </p>
+            <iframe id="iframe" src="{{ url_for('pageViews.x_train_describe') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
+            <p class="vw-50 margin-t-10" style="text-align: left;"> Test set: </p>
+            <iframe id="iframe" src="{{ url_for('pageViews.testset') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
+        </div>
+        <!-- Original Details -->
+        <div id="details-model" class="vh-100 pos-relative bg-b" style="color: #f5f5f5; font-size: 18px;">
+            <div class="pos-center">
                 <h3 style="text-align: center;"> Models Details </h3> <br>
-                <table>
+                <table class="og-details-table">
+                    <tr class="og-details-table">
+                        <th>
+                            Gaussian Naive Bayes
+                        </th>
+                        <th>
+                            Logistic Regression
+                        </th>
+                    </tr class="og-details-table">
                     <tr>
+                        <td class="og-details-table" style="text-align: center;">
+                            Accuracy: 0.7662337662337663 <br>
+                            Precision: 0.6530612244897959 <br>
+                            Recall: 0.6274509803921569 <br>
+                            {#
+                            Confusion Matrix: <br> [[32, 19],
+                            [17, 86]] <br>
+                            #}
+                            True Positive: 32 <br>
+                            False Positive: 19 <br>
+                            True Negative: 17 <br>
+                            False Negative: 86 <br>
+                        </td>
+                        <td class="og-details-table" style="text-align: center;">
+                            Accuracy: 0.7792207792207793 <br> 
+                            Precision: 0.5306122448979592 <br>
+                            Recall: 0.7027027027027027 <br>
+                            {#
+                            Confusion Matrix: <br> [[26, 11],
+                            [23, 94]] <br>
+                            #}
+                            True Positive: 26 <br>
+                            False Positive: 11 <br>
+                            True Negative: 23 <br>
+                            False Negative: 94 <br>
+                        </td>
+                    </tr>
+                </table>
+                <br> {#
+                <p style="text-align: center;"> Confusion Matrix Labels: ['Diabetes', 'No Diabetes'] </p>
+                #}
+            </div>
+        </div>
+        <!-- details -->
+        {% if details %}
+        <div id="details-model" class="vh-100 pos-relative bg-wsmoke" style="color: #000000; font-size: 18px;">
+            <div class="pos-center">
+                <h3 style="text-align: center;"> Your Trained Models Details </h3> <br>
+                <table class="new-details-table">
+                    <tr class="new-details-table">
                         <th>
                             Gaussian Naive Bayes
                         </th>
@@ -163,26 +266,35 @@
                             Logistic Regression
                         </th>
                     </tr>
-                    <tr>
+                    <tr class="new-details-table">
                         <td style="text-align: center;">
-                            Accuracy: 0.8051948051948052 <br>
-                            Precision: 0.6363636363636364 <br>
-                            Recall: 0.7777777777777778 <br>
-                            Confusion Matrix: <br> [[89, 20], <br>
-                            [10, 35]] <br>
+                            Accuracy: {{details['GaussianNB']['Accuracy']}} <br>
+                            Precision: {{details['GaussianNB']['Precision']}} <br>
+                            Recall: {{details['GaussianNB']['Recall']}} <br>
+                            {# Confusion Matrix: {{details['GaussianNB']['Confusion Matrix']}} #}
+                            True Positive: {{details['GaussianNB']['Confusion Matrix'][0][0]}} <br>
+                            False Positive: {{details['GaussianNB']['Confusion Matrix'][0][1]}} <br>
+                            True Negative: {{details['GaussianNB']['Confusion Matrix'][1][0]}} <br>
+                            False Negative: {{details['GaussianNB']['Confusion Matrix'][1][1]}} <br>
                         </td>
                         <td style="text-align: center;">
-                            Accuracy: 0.8051948051948052 <br>
-                            Precision: 0.5272727272727272 <br>
-                            Recall: 0.8787878787878788 <br>
-                            Confusion Matrix: <br> [[95, 26], <br>
-                            [ 4, 29]] <br>
+                            Accuracy: {{details['LogisticRegression']['Accuracy']}} <br>
+                            Precision: {{details['LogisticRegression']['Precision']}} <br>
+                            Recall: {{details['LogisticRegression']['Recall']}} <br>
+                            {# Confusion Matrix: {{details['LogisticRegression']['Confusion Matrix']}} #}
+                            True Positive: {{details['LogisticRegression']['Confusion Matrix'][0][0]}} <br>
+                            False Positive: {{details['LogisticRegression']['Confusion Matrix'][0][1]}} <br>
+                            True Negative: {{details['LogisticRegression']['Confusion Matrix'][1][0]}} <br>
+                            False Negative: {{details['LogisticRegression']['Confusion Matrix'][1][1]}} <br>
                         </td>
                     </tr>
                 </table>
                 <br>
-                <p style="text-align: center;"> Confusion Matrix Labels: ['No Diabetes', 'Diabetes'] </p>
             </div>
         </div>
+        {% endif %}
+        <!-- end details -->
+        <script defer>
+        </script>
     </body>
 </html>
