@@ -220,26 +220,20 @@
                     </tr class="og-details-table">
                     <tr>
                         <td class="og-details-table" style="text-align: center;">
-                            Accuracy: 0.7662337662337663 <br>
-                            Precision: 0.6530612244897959 <br>
-                            Recall: 0.6274509803921569 <br>
-                            {#
-                            Confusion Matrix: <br> [[32, 19],
-                            [17, 86]] <br>
-                            #}
-                            True Positive: 32 <br>
-                            True Negative: 86 <br>
-                            False Positive: 19 <br>
-                            False Negative: 17 <br>
+                            Accuracy: 0.7402597402597403 <br>
+                            Precision: 0.55 <br>
+                            Recall: 0.717391304347826 <br>
+                            F1: 0.6226415094339622 <br>
+                            True Positive: 33 <br>
+                            True Negative: 81 <br>
+                            False Positive: 13 <br>
+                            False Negative: 27 <br>
                         </td>
                         <td class="og-details-table" style="text-align: center;">
-                            Accuracy: 0.7792207792207793 <br> 
-                            Precision: 0.5306122448979592 <br>
-                            Recall: 0.7027027027027027 <br>
-                            {#
-                            Confusion Matrix: <br> [[26, 11],
-                            [23, 94]] <br>
-                            #}
+                            Accuracy: 0.7727272727272727 <br> 
+                            Precision: 0.5166666666666667 <br>
+                            Recall: 0.8378378378378378 <br>
+                            F1: 0.6391752577319587 <br>
                             True Positive: 26 <br>
                             True Negative: 94 <br>
                             False Positive: 11 <br>
@@ -266,6 +260,7 @@
                             Accuracy: {{details['GaussianNB']['Accuracy']}} <br>
                             Precision: {{details['GaussianNB']['Precision']}} <br>
                             Recall: {{details['GaussianNB']['Recall']}} <br>
+                            F1 Score: {{details['GaussianNB']['F1']}} <br>
                             {# Confusion Matrix: {{details['GaussianNB']['Confusion Matrix']}} #}
                             True Positive: {{details['GaussianNB']['Confusion Matrix'][0][0]}} <br>
                             True Negative: {{details['GaussianNB']['Confusion Matrix'][1][1]}} <br>
@@ -276,6 +271,7 @@
                             Accuracy: {{details['LogisticRegression']['Accuracy']}} <br>
                             Precision: {{details['LogisticRegression']['Precision']}} <br>
                             Recall: {{details['LogisticRegression']['Recall']}} <br>
+                            F1 Score: {{details['LogisticRegression']['F1']}} <br>
                             {# Confusion Matrix: {{details['LogisticRegression']['Confusion Matrix']}} #}
                             True Positive: {{details['LogisticRegression']['Confusion Matrix'][0][0]}} <br>
                             True Negative: {{details['LogisticRegression']['Confusion Matrix'][1][1]}} <br>

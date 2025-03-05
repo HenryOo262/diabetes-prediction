@@ -5,7 +5,7 @@ from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 import joblib
 
 def train_model(x_train, y_train, x_test, y_test, sessID):
@@ -15,6 +15,8 @@ def train_model(x_train, y_train, x_test, y_test, sessID):
     # model
     model1 = GaussianNB()
     model2 = LogisticRegression()
+
+    y_train = numpy.ravel(y_train)
 
     # train
     model1 = model1.fit(x_train, y_train)
@@ -38,6 +40,9 @@ def train_model(x_train, y_train, x_test, y_test, sessID):
     recall1 = recall_score(pred1, y_test)
     recall2 = recall_score(pred2, y_test)
 
+    f11 = f1_score(pred1, y_test)
+    f12 = f1_score(pred2, y_test)
+
     confusion_matrix1 = confusion_matrix(pred1, y_test, labels=[1, 0])
     confusion_matrix2 = confusion_matrix(pred2, y_test, labels=[1, 0])
 
@@ -46,6 +51,7 @@ def train_model(x_train, y_train, x_test, y_test, sessID):
             'Accuracy': accuracy1,
             'Precision': precision1,
             'Recall': recall1,
+            'F1': f11,
             'Confusion Matrix': confusion_matrix1,
             'Confusion Matrix Labels': ['Diabetes', 'No Diabetes'],
         },
@@ -53,6 +59,7 @@ def train_model(x_train, y_train, x_test, y_test, sessID):
             'Accuracy': accuracy2,
             'Precision': precision2,
             'Recall': recall2,
+            'F1': f12,
             'Confusion Matrix': confusion_matrix2,
             'Confusion Matrix Labels': ['Diabetes', 'No Diabetes'],
         }
