@@ -9,11 +9,12 @@
     </head>
     <body> 
         <!-- First -->
-        <div class="vh-100" style="background-color: #ffffff;">
-            <div class=" pos-center">
+        <div class="vh-100" style="background-color: #000000; color: #f5f5f5;">
+            <div class="pos-center">
                 {% for key,value in result.items() %}
-                    <p> {{key}}: {{value}} </p>
+                    <p style="font-size: 24px"> {{key}} predicts that you have {{value | lower}} ! </p> <br>
                 {% endfor %}
+                <a class="margin-t-10" style="font-size:20px; display:block; text-align:center;" href="{{ url_for('pageViews.home') }}"> Go Back </a>
             </div>
         </div>
     </body>

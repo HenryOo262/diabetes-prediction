@@ -184,7 +184,7 @@ def train():
     result, message = train_model(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, sessID=request.cookies.get('sessionID'))
     if not result:
         return message, 500
-    return render_template('trained_result.html', result=result)
+    return redirect(url_for('pageViews.home'))
 
 @pageViews.route('/trainset')
 def trainset():

@@ -39,7 +39,7 @@
             <nav id="navigation" class="margin-center flex-row-center">
                 <div class="flex-col-center">
                     <a href="#test-model" class="margin-b-20 display-block" style="display: block; font-size: 24px;"> Predict Diabetes ! </a>
-                    <a href="#train-model" class="display-block" style="font-size: 24px;"> Train your own model ! </a> <br>
+                    <a href="#upload-model" class="display-block" style="font-size: 24px;"> Train your own model ! </a> <br>
                 </div>
             </nav>
             <div class="flex-row-center p-25 margin-t-10">
@@ -196,19 +196,19 @@
             <form id="backup-form">
                 <input type="file" id="backup-dataset" name="backup-dataset" accept=".csv" required hidden>
             </form>
-            <p class="vw-50 margin-t-10" style="text-align: left;"> Uploaded dataset: </p>
+            <p class="vw-50 margin-t-10" style="text-align: left; color: red;"> Uploaded dataset: </p>
             <iframe id="iframe" src="{{ url_for('pageViews.uploaded_dataset') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
-            <p class="vw-50 margin-t-10" style="text-align: left;"> Train set: </p>
+            <p class="vw-50 margin-t-10" style="text-align: left; color: red;"> Train set: </p>
             <iframe id="iframe" src="{{ url_for('pageViews.trainset') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
-            <p class="vw-50 margin-t-10" style="text-align: left;"> Train set describe: </p>
+            <p class="vw-50 margin-t-10" style="text-align: left; color: red;"> Train set describe: </p>
             <iframe id="iframe" src="{{ url_for('pageViews.x_train_describe') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
-            <p class="vw-50 margin-t-10" style="text-align: left;"> Test set: </p>
+            <p class="vw-50 margin-t-10" style="text-align: left; color: red;"> Test set: </p>
             <iframe id="iframe" src="{{ url_for('pageViews.testset') }}" class="vw-50 h-75 margin-t-10 display-block"> </iframe>
         </div>
         <!-- Original Details -->
         <div id="details-model" class="vh-100 pos-relative bg-b" style="color: #f5f5f5; font-size: 18px;">
-            <div class="pos-center">
-                <h3 style="text-align: center;"> Models Details </h3> <br>
+            <div class="pos-center flex-col-center">
+                <h3 style="text-align: center;"> Original Models Details </h3> <br>
                 <table class="og-details-table">
                     <tr class="og-details-table">
                         <th>
@@ -228,9 +228,9 @@
                             [17, 86]] <br>
                             #}
                             True Positive: 32 <br>
+                            True Negative: 86 <br>
                             False Positive: 19 <br>
-                            True Negative: 17 <br>
-                            False Negative: 86 <br>
+                            False Negative: 17 <br>
                         </td>
                         <td class="og-details-table" style="text-align: center;">
                             Accuracy: 0.7792207792207793 <br> 
@@ -241,17 +241,53 @@
                             [23, 94]] <br>
                             #}
                             True Positive: 26 <br>
+                            True Negative: 94 <br>
                             False Positive: 11 <br>
-                            True Negative: 23 <br>
-                            False Negative: 94 <br>
+                            False Negative: 23 <br>
                         </td>
                     </tr>
                 </table>
-                <br> {#
+                <br> <br> {#
                 <p style="text-align: center;"> Confusion Matrix Labels: ['Diabetes', 'No Diabetes'] </p>
                 #}
+                {% if details %}
+                <h3 style="text-align: center;"> Your Trained Models Details </h3> <br>
+                <table class="og-details-table">
+                    <tr class="og-details-table">
+                        <th>
+                            Gaussian Naive Bayes
+                        </th>
+                        <th>
+                            Logistic Regression
+                        </th>
+                    </tr>
+                    <tr class="og-details-table">
+                        <td style="text-align: center;">
+                            Accuracy: {{details['GaussianNB']['Accuracy']}} <br>
+                            Precision: {{details['GaussianNB']['Precision']}} <br>
+                            Recall: {{details['GaussianNB']['Recall']}} <br>
+                            {# Confusion Matrix: {{details['GaussianNB']['Confusion Matrix']}} #}
+                            True Positive: {{details['GaussianNB']['Confusion Matrix'][0][0]}} <br>
+                            True Negative: {{details['GaussianNB']['Confusion Matrix'][1][1]}} <br>
+                            False Positive: {{details['GaussianNB']['Confusion Matrix'][0][1]}} <br>
+                            False Negative: {{details['GaussianNB']['Confusion Matrix'][1][0]}} <br>
+                        </td>
+                        <td style="text-align: center;">
+                            Accuracy: {{details['LogisticRegression']['Accuracy']}} <br>
+                            Precision: {{details['LogisticRegression']['Precision']}} <br>
+                            Recall: {{details['LogisticRegression']['Recall']}} <br>
+                            {# Confusion Matrix: {{details['LogisticRegression']['Confusion Matrix']}} #}
+                            True Positive: {{details['LogisticRegression']['Confusion Matrix'][0][0]}} <br>
+                            True Negative: {{details['LogisticRegression']['Confusion Matrix'][1][1]}} <br>
+                            False Positive: {{details['LogisticRegression']['Confusion Matrix'][0][1]}} <br>
+                            False Negative: {{details['LogisticRegression']['Confusion Matrix'][1][0]}} <br>
+                        </td>
+                    </tr>
+                </table>
+                {% endif %}
             </div>
         </div>
+        {#
         <!-- details -->
         {% if details %}
         <div id="details-model" class="vh-100 pos-relative bg-wsmoke" style="color: #000000; font-size: 18px;">
@@ -271,7 +307,6 @@
                             Accuracy: {{details['GaussianNB']['Accuracy']}} <br>
                             Precision: {{details['GaussianNB']['Precision']}} <br>
                             Recall: {{details['GaussianNB']['Recall']}} <br>
-                            {# Confusion Matrix: {{details['GaussianNB']['Confusion Matrix']}} #}
                             True Positive: {{details['GaussianNB']['Confusion Matrix'][0][0]}} <br>
                             False Positive: {{details['GaussianNB']['Confusion Matrix'][0][1]}} <br>
                             True Negative: {{details['GaussianNB']['Confusion Matrix'][1][0]}} <br>
@@ -281,7 +316,6 @@
                             Accuracy: {{details['LogisticRegression']['Accuracy']}} <br>
                             Precision: {{details['LogisticRegression']['Precision']}} <br>
                             Recall: {{details['LogisticRegression']['Recall']}} <br>
-                            {# Confusion Matrix: {{details['LogisticRegression']['Confusion Matrix']}} #}
                             True Positive: {{details['LogisticRegression']['Confusion Matrix'][0][0]}} <br>
                             False Positive: {{details['LogisticRegression']['Confusion Matrix'][0][1]}} <br>
                             True Negative: {{details['LogisticRegression']['Confusion Matrix'][1][0]}} <br>
@@ -294,7 +328,7 @@
         </div>
         {% endif %}
         <!-- end details -->
-        <script defer>
-        </script>
+        #}
+        <script defer></script>
     </body>
 </html>
