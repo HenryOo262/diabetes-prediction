@@ -1,8 +1,9 @@
-from flask import Blueprint, make_response, jsonify, session, request, flash, redirect, render_template, url_for
-from pprint import pp as p
-from functools import wraps
+from flask import Blueprint, make_response, request, redirect, render_template, url_for
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
+from threading import Thread
+import time
+import shutil
 
 import joblib
 import numpy
@@ -14,6 +15,28 @@ from my_site.code.train import train_model
 from my_site.code.file_validation import file_validation
 
 pageViews = Blueprint('pageViews', __name__)
+
+def call_route():
+    while True:
+        try:
+            #response = requests.get(url_for('pageViews.ping'))  # Call the Blueprint route
+            #print(response.json())  # Print response
+            loc = os.path.join(os.path.dirname(__file__), 'saves')
+            contents = os.listdir(loc)
+            for content in contents:
+                content_path = os.path.join(loc, content)
+                if(os.path.isfile(content_path)):
+                    os.remove(content_path)
+                elif(os.path.isdir(content_path)):
+                    shutil.rmtree(content_path)
+                print(content_path)
+        except Exception as e:
+            print("Error:", e)
+        time.sleep(5)  # Wait before the next call - a day
+
+# Start the thread when the blueprint is imported
+thread = Thread(target=call_route, daemon=True)
+thread.start()
 
 def savefolder():
     current = os.path.dirname(__file__)
@@ -40,6 +63,8 @@ def diabetes():
         resp.set_cookie('sessionID', sessID, max_age=10800)
     # if path
     else:
+        if(not os.path.isdir(os.path.join(os.path.dirname(__file__), 'saves', str(sessID)))):
+            os.mkdir(os.path.join(os.path.dirname(__file__), 'saves', str(sessID)))
         details = None
         loadloc_details = os.path.join(savefolder(), str(sessID), 'details.joblib')
         if(os.path.isfile(loadloc_details)):
